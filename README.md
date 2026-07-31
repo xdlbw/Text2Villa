@@ -6,4 +6,6 @@ Text2Villa generates multi-story, polygonal 3D indoor environments from natural-
 
 Authors: Xiang Tang, Ruotong Li, and Xiaopeng Fan.
 
-The project website is maintained on the `project_page` branch. Paper and code links will be added when they are public.
+Paper: [arXiv:2607.17145](https://arxiv.org/abs/2607.17145)
+
+The project website is maintained on the `project_page` branch. The code link will be added when it is public.

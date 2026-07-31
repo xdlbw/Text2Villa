@@ -1,0 +1,9 @@
+{
+  "name": "text2villa-project-page",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests",
+    "serve": "python -m http.server 4173"
+  }
+}

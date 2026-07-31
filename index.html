@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Text2Villa generates connected, physically plausible multi-story 3D indoor environments from natural-language descriptions." />
+    <meta name="theme-color" content="#17191f" />
+    <title>Text2Villa | Text-to-3D Indoor Scene Generation</title>
+    <link rel="icon" type="image/webp" href="./static/images/hero/representative.webp" />
+    <link rel="stylesheet" href="./static/css/site.css" />
+    <script defer src="./static/vendor/lucide.min.js"></script>
+    <script type="module" src="./static/js/site.mjs"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="site-brand" href="#top" aria-label="Text2Villa home">
+          <span class="brand-mark" aria-hidden="true">T2V</span>
+          <span>Text2Villa</span>
+        </a>
+
+        <button
+          class="icon-button nav-toggle"
+          type="button"
+          data-nav-toggle
+          aria-label="Open navigation"
+          aria-controls="site-menu"
+          aria-expanded="false"
+          title="Open navigation">
+          <i data-lucide="menu" aria-hidden="true"></i>
+        </button>
+
+        <div class="nav-menu" id="site-menu" data-nav-menu>
+          <div class="research-menu" data-research-menu>
+            <button
+              class="nav-link research-toggle"
+              type="button"
+              data-research-toggle
+              aria-haspopup="true"
+              aria-expanded="false">
+              Previous Work
+              <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </button>
+            <div class="research-popover">
+              <a href="https://arxiv.org/abs/2504.11734" target="_blank" rel="noreferrer">
+                <span>2025</span>
+                Recent Advances in 3D Object and Scene Generation
+              </a>
+              <a href="https://xdlbw.github.io/sing3d/" target="_blank" rel="noreferrer">
+                <span>2025</span>
+                Single Image-guided 3D Scene Generation
+              </a>
+              <a href="https://xdlbw.github.io/ZeroScene/" target="_blank" rel="noreferrer">
+                <span>2025</span>
+                ZeroScene
+              </a>
+            </div>
+          </div>
+
+          <div class="section-links">
+            <a class="nav-link" href="#abstract">Abstract</a>
+            <a class="nav-link" href="#method">Method</a>
+            <a class="nav-link" href="#floor-demo">Floors</a>
+            <a class="nav-link" href="#results">Results</a>
+          </div>
+
+          <a
+            class="icon-button github-link"
+            href="https://github.com/xdlbw"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open GitHub profile"
+            title="GitHub profile">
+            <i data-lucide="github" aria-hidden="true"></i>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="content">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <img
+          class="hero-image"
+          src="./static/images/hero/representative.webp"
+          alt="A generated multi-story villa with connected rooms and physically arranged furniture" />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Text-to-3D indoor scene generation</p>
+          <h1 id="hero-title">Text2Villa</h1>
+          <p class="hero-subtitle">From text to connected, physically plausible villas.</p>
+          <p class="hero-summary">
+            Text2Villa connects macro-level multi-story layout generation with micro-level,
+            physics-aware asset arrangement to create villa-scale 3D indoor environments from
+            natural-language descriptions.
+          </p>
+          <p class="authors">
+            <span>Xiang Tang<sup>1,2</sup></span>
+            <a href="https://scholar.google.com/citations?user=6zC1cbgAAAAJ" target="_blank" rel="noreferrer">
+              Ruotong Li<sup>2</sup>
+            </a>
+            <a href="https://scholar.google.com/citations?user=4LsZhDgAAAAJ" target="_blank" rel="noreferrer">
+              Xiaopeng Fan<sup>3,2,4</sup>
+            </a>
+          </p>
+          <p class="affiliations">
+            <sup>1</sup>Harbin Institute of Technology, Shenzhen
+            <span aria-hidden="true">/</span>
+            <sup>2</sup>Peng Cheng Laboratory
+            <span aria-hidden="true">/</span>
+            <sup>3</sup>Harbin Institute of Technology
+            <span aria-hidden="true">/</span>
+            <sup>4</sup>Harbin Institute of Technology, Suzhou Research Institute
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="./static/pdfs/Text2Villa.pdf" target="_blank">
+              <i data-lucide="file-text" aria-hidden="true"></i>
+              Paper
+            </a>
+            <a class="button button-secondary" href="https://arxiv.org/abs/2607.17145" target="_blank" rel="noreferrer">
+              <i data-lucide="library" aria-hidden="true"></i>
+              arXiv
+            </a>
+            <button class="button button-secondary" type="button" disabled title="Code will be linked after release">
+              <i data-lucide="code-2" aria-hidden="true"></i>
+              Code
+            </button>
+          </div>
+        </div>
+        <a class="hero-next" href="#abstract" aria-label="Continue to abstract" title="Continue to abstract">
+          <i data-lucide="arrow-down" aria-hidden="true"></i>
+        </a>
+      </section>
+
+      <section class="paper-intro" id="abstract" aria-labelledby="abstract-title">
+        <div class="section-shell intro-grid">
+          <div class="section-heading">
+            <p class="eyebrow dark">Why Text2Villa</p>
+            <h2 id="abstract-title">A building is more than a stack of rooms.</h2>
+          </div>
+          <div class="abstract-copy">
+            <p>
+              Existing text-to-3D methods predominantly operate on single rooms with rectangular
+              boundaries. They struggle with vertical connectivity, arbitrary building footprints,
+              and the continuous physical constraints that keep objects supported, contained, and
+              collision-free.
+            </p>
+            <p>
+              Text2Villa introduces a hierarchical framework that first generates connected,
+              polygonal multi-story foundations and then instantiates each room through an
+              affordance-driven physical-semantic representation and closed-loop optimization.
+            </p>
+          </div>
+        </div>
+
+        <div class="section-shell contribution-row" aria-label="Core capabilities">
+          <div>
+            <strong>Multi-story</strong>
+            <span>Connected foundations with usable vertical circulation.</span>
+          </div>
+          <div>
+            <strong>Polygonal</strong>
+            <span>Flexible footprints beyond predefined rectangular rooms.</span>
+          </div>
+          <div>
+            <strong>Physics-aware</strong>
+            <span>Support, containment, collision, and semantic constraints.</span>
+          </div>
+        </div>
+
+        <figure class="section-shell teaser-figure">
+          <img
+            src="./static/images/figures/teaser.webp"
+            alt="Text2Villa teaser showing multi-story connectivity, support and containment, and generated rooms" />
+          <figcaption>
+            Villa-scale generation preserves inter-floor connectivity while resolving fine-grained
+            physical and semantic relationships.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div class="section-shell">
+          <div class="section-heading centered">
+            <p class="eyebrow dark">Method</p>
+            <h2 id="method-title">Generate globally. Refine locally.</h2>
+            <p>
+              The pipeline separates architectural planning from asset instantiation, then closes
+              the loop with geometric verification and multimodal semantic feedback.
+            </p>
+          </div>
+
+          <div class="method-steps">
+            <div>
+              <span>01</span>
+              <h3>Architectural layout</h3>
+              <p>A fine-tuned autoregressive generator converts text into parameterized multi-story foundations.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <h3>A-PSSG construction</h3>
+              <p>Support surfaces, containment cavities, and semantic relations become explicit graph constraints.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <h3>Closed-loop refinement</h3>
+              <p>An MLLM and a geometry engine iteratively observe, evaluate, and modify each scene.</p>
+            </div>
+          </div>
+
+          <figure class="zoomable-figure">
+            <button
+              class="figure-zoom"
+              type="button"
+              data-lightbox
+              data-caption="Text2Villa pipeline: macro-level layout generation, micro-level scene initialization, and closed-loop iterative optimization."
+              aria-label="Open the Text2Villa pipeline figure at full size"
+              title="Open full-size figure">
+              <img
+                src="./static/images/figures/pipeline.webp"
+                alt="Text2Villa pipeline with three stages from layout generation to physics-aware optimization" />
+              <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
+            </button>
+            <figcaption>
+              Stage 1 creates the building foundation, Stage 2 initializes room assets and constraints,
+              and Stage 3 resolves physical conflicts and semantic errors.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="floor-section" id="floor-demo" aria-labelledby="floor-demo-title">
+        <div class="section-shell wide">
+          <div class="section-heading centered light-heading">
+            <p class="eyebrow">Interactive floor study</p>
+            <h2 id="floor-demo-title">From one story to three.</h2>
+            <p>
+              A single prompt becomes a connected hierarchy of floor layouts and room-scale scenes.
+              The media slots are ready for final rotating floor videos.
+            </p>
+          </div>
+
+          <div class="floor-explorer" data-floor-explorer>
+            <article class="floor-panel map-panel">
+              <header class="panel-header">
+                <span>01</span>
+                <h3>Building Map</h3>
+              </header>
+              <div class="floor-selector" role="group" aria-label="Floor selector">
+                <div class="floor-map-item" data-floor-map="3">
+                  <button
+                    type="button"
+                    data-floor-id="3"
+                    aria-label="Preview floor 3"
+                    aria-controls="floor-video"
+                    aria-pressed="false">3</button>
+                  <img src="./static/images/floors/map-floor-3.svg" alt="Floor 3 layout map" />
+                </div>
+                <div class="floor-map-item" data-floor-map="2">
+                  <button
+                    type="button"
+                    data-floor-id="2"
+                    aria-label="Preview floor 2"
+                    aria-controls="floor-video"
+                    aria-pressed="false">2</button>
+                  <img src="./static/images/floors/map-floor-2.svg" alt="Floor 2 layout map" />
+                </div>
+                <div class="floor-map-item is-active" data-floor-map="1">
+                  <button
+                    class="is-active"
+                    type="button"
+                    data-floor-id="1"
+                    aria-label="Preview floor 1"
+                    aria-controls="floor-video"
+                    aria-pressed="true">1</button>
+                  <img src="./static/images/floors/map-floor-1.svg" alt="Floor 1 layout map" />
+                </div>
+              </div>
+            </article>
+
+            <article class="floor-panel preview-panel">
+              <header class="panel-header">
+                <span>02</span>
+                <h3 data-floor-title aria-live="polite">Floor 1 Preview</h3>
+              </header>
+              <div class="floor-media">
+                <img
+                  id="floor-poster"
+                  src="./static/images/floors/floor-1.webp"
+                  alt="Floor 1 generated interior preview" />
+                <video
+                  id="floor-video"
+                  controls
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  poster="./static/images/floors/floor-1.webp"
+                  hidden></video>
+                <span class="media-status" data-media-status data-mode="poster">
+                  <i data-lucide="image" aria-hidden="true"></i>
+                  Poster preview
+                </span>
+              </div>
+              <div class="floor-meta">
+                <strong data-floor-rooms>Living / Dining / Kitchen</strong>
+                <p data-floor-summary>
+                  A connected social level organized around the living room, dining area, kitchen,
+                  and vertical circulation.
+                </p>
+              </div>
+            </article>
+
+            <article class="floor-panel graph-panel">
+              <header class="panel-header">
+                <span>03</span>
+                <h3>Physical-Semantic Structure</h3>
+              </header>
+              <img
+                class="graph-preview"
+                src="./static/images/figures/graph.webp"
+                alt="Nested graph connecting multi-story room topology with an affordance-driven physical-semantic scene graph" />
+              <p>
+                Each room expands into an A-PSSG that distinguishes support providers, support
+                consumers, and interactive objects while preserving semantic relations.
+              </p>
+            </article>
+          </div>
+
+          <figure class="layout-strip">
+            <img
+              src="./static/images/figures/layout.webp"
+              alt="Examples of one-story, two-story, and three-story generated building layouts" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="results-section" id="results" aria-labelledby="results-title">
+        <div class="section-shell">
+          <div class="section-heading centered">
+            <p class="eyebrow dark">Results</p>
+            <h2 id="results-title">Prompt-aligned at building and room scale.</h2>
+            <p>
+              Text2Villa follows detailed spatial instructions while enforcing physical and semantic
+              constraints, from global room topology to fine-grained furniture arrangement.
+            </p>
+          </div>
+
+          <div class="segmented-control" role="tablist" aria-label="Result scale">
+            <button
+              type="button"
+              id="building-results-tab"
+              role="tab"
+              aria-selected="true"
+              aria-controls="building-results"
+              data-result-tab="building">Building scale</button>
+            <button
+              type="button"
+              id="room-results-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="room-results"
+              data-result-tab="room"
+              tabindex="-1">Room scale</button>
+          </div>
+
+          <div class="result-panel" id="building-results" role="tabpanel" aria-labelledby="building-results-tab" data-result-panel="building">
+            <figure class="zoomable-figure">
+              <button
+                class="figure-zoom"
+                type="button"
+                data-lightbox
+                data-caption="Macro-level qualitative comparison. Prior baselines are evaluated in a single-story setting because they do not support multi-story generation."
+                aria-label="Open the building-scale comparison at full size"
+                title="Open full-size figure">
+                <img
+                  src="./static/images/figures/building-results.webp"
+                  alt="Building-scale qualitative comparison of generated topology and rooms" />
+                <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
+              </button>
+              <figcaption>
+                Prior baselines are evaluated in a single-story setting because they do not support
+                multi-story generation.
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="result-panel" id="room-results" role="tabpanel" aria-labelledby="room-results-tab" data-result-panel="room" hidden>
+            <figure class="zoomable-figure">
+              <button
+                class="figure-zoom"
+                type="button"
+                data-lightbox
+                data-caption="Room-scale qualitative comparison across bedrooms, offices, dining rooms, living rooms, and children rooms."
+                aria-label="Open the room-scale comparison at full size"
+                title="Open full-size figure">
+                <img
+                  src="./static/images/figures/room-results.webp"
+                  alt="Room-scale qualitative comparison across five functional room categories" />
+                <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
+              </button>
+              <figcaption>
+                Fine-grained arrangement remains prompt-aligned across bedrooms, offices, dining
+                rooms, living rooms, and children rooms.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="applications-section" id="applications" aria-labelledby="applications-title">
+        <div class="section-shell application-grid">
+          <div class="section-heading">
+            <p class="eyebrow dark">Applications</p>
+            <h2 id="applications-title">Explicit 3D scenes for downstream systems.</h2>
+            <p>
+              Generated buildings and furniture remain explicit meshes that can move into content
+              engines for rapid authoring and into interactive environments for embodied-agent training.
+            </p>
+          </div>
+          <figure>
+            <img
+              src="./static/images/figures/applications.webp"
+              alt="In-game community authoring and an interactive environment for embodied agents" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="citation-section" id="citation" aria-labelledby="citation-title">
+        <div class="section-shell citation-grid">
+          <div class="section-heading">
+            <p class="eyebrow dark">Reference</p>
+            <h2 id="citation-title">Citation</h2>
+            <p>arXiv:2607.17145</p>
+          </div>
+          <pre><code>@article{tang2026text2villa,
+  title={Text2Villa: Hierarchical Generation of 3D Indoor Environments
+         with Physics-Aware Analysis-by-Synthesis},
+  author={Tang, Xiang and Li, Ruotong and Fan, Xiaopeng},
+  journal={arXiv preprint arXiv:2607.17145},
+  year={2026}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-shell">
+        <span>Text2Villa</span>
+        <p>Hierarchical generation of physically plausible 3D indoor environments.</p>
+        <a href="#top">Back to top <i data-lucide="arrow-up" aria-hidden="true"></i></a>
+      </div>
+    </footer>
+
+    <dialog class="figure-dialog" id="figure-dialog" aria-labelledby="dialog-caption">
+      <button
+        class="icon-button dialog-close"
+        type="button"
+        data-dialog-close
+        aria-label="Close figure"
+        title="Close figure">
+        <i data-lucide="x" aria-hidden="true"></i>
+      </button>
+      <img alt="" />
+      <p id="dialog-caption" data-dialog-caption></p>
+    </dialog>
+  </body>
+</html>
