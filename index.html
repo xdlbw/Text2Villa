@@ -7,20 +7,26 @@
       name="description"
       content="Text2Villa generates connected, physically plausible multi-story 3D indoor environments from natural-language descriptions." />
     <meta name="theme-color" content="#17191f" />
-    <title>Text2Villa | Text-to-3D Indoor Scene Generation</title>
-    <link rel="icon" type="image/webp" href="./static/images/hero/representative.webp" />
+    <title>Text2Villa</title>
+    <link rel="icon" type="image/webp" href="./static/images/figures/logo.png" />
     <link rel="stylesheet" href="./static/css/site.css" />
     <script defer src="./static/vendor/lucide.min.js"></script>
     <script type="module" src="./static/js/site.mjs"></script>
   </head>
 
-  <body>
+  <body style="--page-base-size: 16px;">
     <a class="skip-link" href="#content">Skip to content</a>
 
-    <header class="site-header">
+    <header
+      class="site-header"
+      style="
+        --header-brand-size: 16px;
+        --header-nav-size: 14px;
+        --research-title-size: 14px;
+        --research-meta-size: 14px;
+      ">
       <nav class="site-nav" aria-label="Main navigation">
         <a class="site-brand" href="#top" aria-label="Text2Villa home">
-          <span class="brand-mark" aria-hidden="true">T2V</span>
           <span>Text2Villa</span>
         </a>
 
@@ -43,21 +49,21 @@
               data-research-toggle
               aria-haspopup="true"
               aria-expanded="false">
-              Previous Work
+              More Research
               <i data-lucide="chevron-down" aria-hidden="true"></i>
             </button>
             <div class="research-popover">
               <a href="https://arxiv.org/abs/2504.11734" target="_blank" rel="noreferrer">
-                <span>2025</span>
-                Recent Advances in 3D Object and Scene Generation
+                <span class="research-meta">2025</span>
+                <span class="research-title research-title--single">Recent Advances in 3D Object and Scene Generation: A Survey</span>
               </a>
-              <a href="https://xdlbw.github.io/sing3d/" target="_blank" rel="noreferrer">
-                <span>2025</span>
-                Single Image-guided 3D Scene Generation
+              <a href="https://arxiv.org/abs/2507.14841" target="_blank" rel="noreferrer">
+                <span class="research-meta">2026 / CVMJ</span>
+                <span class="research-title">Towards geometric and textural consistency 3D scene generation via single image-guided model generation and layout optimization</span>
               </a>
-              <a href="https://xdlbw.github.io/ZeroScene/" target="_blank" rel="noreferrer">
-                <span>2025</span>
-                ZeroScene
+              <a href="https://arxiv.org/abs/2509.23607" target="_blank" rel="noreferrer">
+                <span class="research-meta">2026 / EG</span>
+                <span class="research-title">ZeroScene: A Zero-Shot Framework for 3D Scene Generation from a Single Image and Controllable Texture Editing</span>
               </a>
             </div>
           </div>
@@ -65,8 +71,8 @@
           <div class="section-links">
             <a class="nav-link" href="#abstract">Abstract</a>
             <a class="nav-link" href="#method">Method</a>
-            <a class="nav-link" href="#floor-demo">Floors</a>
             <a class="nav-link" href="#results">Results</a>
+            <a class="nav-link" href="#comparison">Comparison</a>
           </div>
 
           <a
@@ -83,20 +89,29 @@
     </header>
 
     <main id="content">
-      <section class="hero" id="top" aria-labelledby="hero-title">
+      <section
+        class="hero"
+        id="top"
+        aria-labelledby="hero-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --hero-title-size: clamp(50px, 7.5vw, 96px);
+          --hero-summary-size: clamp(16px, 1.8vw, 18px);
+          --hero-author-size: clamp(16px, 1.4vw, 18px);
+          --hero-affiliation-size: 16px;
+          --button-label-size: 16px;
+        ">
         <img
           class="hero-image"
-          src="./static/images/hero/representative.webp"
+          src="./static/images/hero/representative.png"
           alt="A generated multi-story villa with connected rooms and physically arranged furniture" />
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="eyebrow">Text-to-3D indoor scene generation</p>
           <h1 id="hero-title">Text2Villa</h1>
-          <p class="hero-subtitle">From text to connected, physically plausible villas.</p>
           <p class="hero-summary">
             Text2Villa connects macro-level multi-story layout generation with micro-level,
-            physics-aware asset arrangement to create villa-scale 3D indoor environments from
-            natural-language descriptions.
+            physics-aware asset arrangement to create villa-scale 3D indoor environments from natural-language descriptions.
           </p>
           <p class="authors">
             <span>Xiang Tang<sup>1,2</sup></span>
@@ -112,15 +127,12 @@
             <span aria-hidden="true">/</span>
             <sup>2</sup>Peng Cheng Laboratory
             <span aria-hidden="true">/</span>
+            <span style="flex-basis: 100%; height: 0;"></span>
             <sup>3</sup>Harbin Institute of Technology
             <span aria-hidden="true">/</span>
             <sup>4</sup>Harbin Institute of Technology, Suzhou Research Institute
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="./static/pdfs/Text2Villa.pdf" target="_blank">
-              <i data-lucide="file-text" aria-hidden="true"></i>
-              Paper
-            </a>
             <a class="button button-secondary" href="https://arxiv.org/abs/2607.17145" target="_blank" rel="noreferrer">
               <i data-lucide="library" aria-hidden="true"></i>
               arXiv
@@ -136,7 +148,18 @@
         </a>
       </section>
 
-      <section class="paper-intro" id="abstract" aria-labelledby="abstract-title">
+      <section
+        class="paper-intro"
+        id="abstract"
+        aria-labelledby="abstract-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-copy-size: 16px;
+          --feature-title-size: 24px;
+          --feature-copy-size: 16px;
+          --caption-size: 16px;
+        ">
         <div class="section-shell intro-grid">
           <div class="section-heading">
             <p class="eyebrow dark">Why Text2Villa</p>
@@ -146,13 +169,13 @@
             <p>
               Existing text-to-3D methods predominantly operate on single rooms with rectangular
               boundaries. They struggle with vertical connectivity, arbitrary building footprints,
-              and the continuous physical constraints that keep objects supported, contained, and
+              and the physical constraints that keep objects supported, contained, and
               collision-free.
             </p>
             <p>
               Text2Villa introduces a hierarchical framework that first generates connected,
               polygonal multi-story foundations and then instantiates each room through an
-              affordance-driven physical-semantic representation and closed-loop optimization.
+              affordance-driven physical-semantic scene graph (A-PSSG) and closed-loop optimization.
             </p>
           </div>
         </div>
@@ -172,7 +195,7 @@
           </div>
         </div>
 
-        <figure class="section-shell teaser-figure">
+        <!-- <figure class="section-shell teaser-figure">
           <img
             src="./static/images/figures/teaser.webp"
             alt="Text2Villa teaser showing multi-story connectivity, support and containment, and generated rooms" />
@@ -180,10 +203,22 @@
             Villa-scale generation preserves inter-floor connectivity while resolving fine-grained
             physical and semantic relationships.
           </figcaption>
-        </figure>
+        </figure> -->
       </section>
 
-      <section class="method-section" id="method" aria-labelledby="method-title">
+      <section
+        class="method-section"
+        id="method"
+        aria-labelledby="method-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-description-size: clamp(16px, 1.8vw, 18px);
+          --step-label-size: 16px;
+          --step-title-size: 24px;
+          --step-copy-size: 16px;
+          --caption-size: 16px;
+        ">
         <div class="section-shell">
           <div class="section-heading centered">
             <p class="eyebrow dark">Method</p>
@@ -221,7 +256,7 @@
               aria-label="Open the Text2Villa pipeline figure at full size"
               title="Open full-size figure">
               <img
-                src="./static/images/figures/pipeline.webp"
+                src="./static/images/figures/pipeline.png"
                 alt="Text2Villa pipeline with three stages from layout generation to physics-aware optimization" />
               <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
             </button>
@@ -233,131 +268,139 @@
         </div>
       </section>
 
-      <section class="floor-section" id="floor-demo" aria-labelledby="floor-demo-title">
+      <section
+        class="floor-section"
+        id="results"
+        aria-labelledby="results-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-description-size: clamp(16px, 1.8vw, 18px);
+          --panel-index-size: 16px;
+          --panel-title-size: clamp(16px, 1.8vw, 18px);
+          --floor-selector-size: 24px;
+          --floor-meta-title-size: 16px;
+          --floor-meta-copy-size: 16px;
+        ">
         <div class="section-shell wide">
           <div class="section-heading centered light-heading">
-            <p class="eyebrow">Interactive floor study</p>
-            <h2 id="floor-demo-title">From one story to three.</h2>
-            <p>
-              A single prompt becomes a connected hierarchy of floor layouts and room-scale scenes.
-              The media slots are ready for final rotating floor videos.
+            <p class="eyebrow">Results</p>
+            <h2 id="results-title">From one story to three.</h2>
+            <p class="results-summary-line">
+              A single prompt becomes a connected hierarchy of floor layouts and room-scale scenes. The media slots are ready for final rotating floor videos.
             </p>
           </div>
 
           <div class="floor-explorer" data-floor-explorer>
             <article class="floor-panel map-panel">
               <header class="panel-header">
-                <span>01</span>
-                <h3>Building Map</h3>
+                <h3>Complete Villa</h3>
               </header>
-              <div class="floor-selector" role="group" aria-label="Floor selector">
-                <div class="floor-map-item" data-floor-map="3">
-                  <button
-                    type="button"
-                    data-floor-id="3"
-                    aria-label="Preview floor 3"
-                    aria-controls="floor-video"
-                    aria-pressed="false">3</button>
-                  <img src="./static/images/floors/map-floor-3.svg" alt="Floor 3 layout map" />
-                </div>
-                <div class="floor-map-item" data-floor-map="2">
-                  <button
-                    type="button"
-                    data-floor-id="2"
-                    aria-label="Preview floor 2"
-                    aria-controls="floor-video"
-                    aria-pressed="false">2</button>
-                  <img src="./static/images/floors/map-floor-2.svg" alt="Floor 2 layout map" />
-                </div>
-                <div class="floor-map-item is-active" data-floor-map="1">
-                  <button
-                    class="is-active"
-                    type="button"
-                    data-floor-id="1"
-                    aria-label="Preview floor 1"
-                    aria-controls="floor-video"
-                    aria-pressed="true">1</button>
-                  <img src="./static/images/floors/map-floor-1.svg" alt="Floor 1 layout map" />
-                </div>
+              <div class="villa-selector" role="group" aria-label="Floor selector">
+                <img
+                  class="villa-preview"
+                  src="./static/images/figures/villa.png"
+                  alt="Complete three-story villa with each floor exposed" />
+                <button
+                  class="villa-floor-marker villa-floor-marker--3"
+                  type="button"
+                  data-floor-id="3"
+                  data-floor-map="3"
+                  aria-label="Play floor 3 preview and virtual tour"
+                  aria-controls="floor-video tour-video"
+                  aria-pressed="false">3</button>
+                <button
+                  class="villa-floor-marker villa-floor-marker--2"
+                  type="button"
+                  data-floor-id="2"
+                  data-floor-map="2"
+                  aria-label="Play floor 2 preview and virtual tour"
+                  aria-controls="floor-video tour-video"
+                  aria-pressed="false">2</button>
+                <button
+                  class="villa-floor-marker villa-floor-marker--1 is-active"
+                  type="button"
+                  data-floor-id="1"
+                  data-floor-map="1"
+                  aria-label="Play floor 1 preview and virtual tour"
+                  aria-controls="floor-video tour-video"
+                  aria-pressed="true">1</button>
               </div>
             </article>
 
             <article class="floor-panel preview-panel">
               <header class="panel-header">
-                <span>02</span>
                 <h3 data-floor-title aria-live="polite">Floor 1 Preview</h3>
               </header>
               <div class="floor-media">
-                <img
-                  id="floor-poster"
-                  src="./static/images/floors/floor-1.webp"
-                  alt="Floor 1 generated interior preview" />
                 <video
                   id="floor-video"
                   controls
                   muted
                   loop
                   playsinline
-                  preload="metadata"
-                  poster="./static/images/floors/floor-1.webp"
-                  hidden></video>
-                <span class="media-status" data-media-status data-mode="poster">
-                  <i data-lucide="image" aria-hidden="true"></i>
-                  Poster preview
-                </span>
-              </div>
-              <div class="floor-meta">
-                <strong data-floor-rooms>Living / Dining / Kitchen</strong>
-                <p data-floor-summary>
-                  A connected social level organized around the living room, dining area, kitchen,
-                  and vertical circulation.
-                </p>
+                  preload="auto"
+                  src="./static/videos/1.mp4" hidden></video>
               </div>
             </article>
 
-            <article class="floor-panel graph-panel">
+            <article class="floor-panel tour-panel">
               <header class="panel-header">
-                <span>03</span>
-                <h3>Physical-Semantic Structure</h3>
+                <h3 id="tour-title">Virtual Tour</h3>
               </header>
-              <img
-                class="graph-preview"
-                src="./static/images/figures/graph.webp"
-                alt="Nested graph connecting multi-story room topology with an affordance-driven physical-semantic scene graph" />
-              <p>
-                Each room expands into an A-PSSG that distinguishes support providers, support
-                consumers, and interactive objects while preserving semantic relations.
-              </p>
+              <div class="floor-media tour-media">
+                <video
+                  id="tour-video"
+                  aria-labelledby="tour-title"
+                  controls
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                  src="./static/videos/m1.mp4" hidden></video>
+              </div>
             </article>
           </div>
-
-          <figure class="layout-strip">
-            <img
-              src="./static/images/figures/layout.webp"
-              alt="Examples of one-story, two-story, and three-story generated building layouts" />
-          </figure>
         </div>
       </section>
 
-      <section class="results-section" id="results" aria-labelledby="results-title">
+      <section
+        class="results-section"
+        id="comparison"
+        aria-labelledby="comparison-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-description-size: clamp(16px, 1.8vw, 18px);
+          --results-tab-size: 16px;
+          --caption-size: 16px;
+        ">
         <div class="section-shell">
           <div class="section-heading centered">
-            <p class="eyebrow dark">Results</p>
-            <h2 id="results-title">Prompt-aligned at building and room scale.</h2>
+            <p class="eyebrow dark">Comparison</p>
+            <h2 id="comparison-title">Prompt-aligned at villa, floor, and room scale.</h2>
             <p>
               Text2Villa follows detailed spatial instructions while enforcing physical and semantic
               constraints, from global room topology to fine-grained furniture arrangement.
             </p>
           </div>
 
-          <div class="segmented-control" role="tablist" aria-label="Result scale">
+          <div class="segmented-control" role="tablist" aria-label="Comparison scale">
             <button
               type="button"
-              id="building-results-tab"
+              id="villa-results-tab"
               role="tab"
               aria-selected="true"
-              aria-controls="building-results"
-              data-result-tab="building">Building scale</button>
+              aria-controls="villa-results"
+              data-result-tab="villa">Villa Scale</button>
+            <button
+              type="button"
+              id="floor-results-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="floor-results"
+              data-result-tab="floor"
+              tabindex="-1">Floor Scale</button>
             <button
               type="button"
               id="room-results-tab"
@@ -365,21 +408,41 @@
               aria-selected="false"
               aria-controls="room-results"
               data-result-tab="room"
-              tabindex="-1">Room scale</button>
+              tabindex="-1">Room Scale</button>
           </div>
 
-          <div class="result-panel" id="building-results" role="tabpanel" aria-labelledby="building-results-tab" data-result-panel="building">
+          <div class="result-panel" id="villa-results" role="tabpanel" aria-labelledby="villa-results-tab" data-result-panel="villa">
             <figure class="zoomable-figure">
               <button
                 class="figure-zoom"
                 type="button"
                 data-lightbox
-                data-caption="Macro-level qualitative comparison. Prior baselines are evaluated in a single-story setting because they do not support multi-story generation."
-                aria-label="Open the building-scale comparison at full size"
+                data-caption="Villa-scale qualitative results across connected multi-story indoor environments."
+                aria-label="Open the villa-scale results at full size"
                 title="Open full-size figure">
                 <img
-                  src="./static/images/figures/building-results.webp"
-                  alt="Building-scale qualitative comparison of generated topology and rooms" />
+                  src="./static/images/figures/villa-results.png"
+                  alt="Villa-scale generation across connected multi-story indoor environments" />
+                <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
+              </button>
+              <figcaption>
+                Villa-scale generation connects multi-story layouts with coherent room-level synthesis.
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="result-panel" id="floor-results" role="tabpanel" aria-labelledby="floor-results-tab" data-result-panel="floor" hidden>
+            <figure class="zoomable-figure">
+              <button
+                class="figure-zoom"
+                type="button"
+                data-lightbox
+                data-caption="Floor-scale qualitative comparison. Prior baselines are evaluated in a single-story setting because they do not support multi-story generation."
+                aria-label="Open the floor-scale comparison at full size"
+                title="Open full-size figure">
+                <img
+                  src="./static/images/figures/floor-results.png"
+                  alt="Floor-scale qualitative comparison of generated topology and rooms" />
                 <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
               </button>
               <figcaption>
@@ -399,7 +462,7 @@
                 aria-label="Open the room-scale comparison at full size"
                 title="Open full-size figure">
                 <img
-                  src="./static/images/figures/room-results.webp"
+                  src="./static/images/figures/room-results.png"
                   alt="Room-scale qualitative comparison across five functional room categories" />
                 <span class="zoom-icon" aria-hidden="true"><i data-lucide="maximize-2"></i></span>
               </button>
@@ -412,7 +475,15 @@
         </div>
       </section>
 
-      <section class="applications-section" id="applications" aria-labelledby="applications-title">
+      <section
+        class="applications-section"
+        id="applications"
+        aria-labelledby="applications-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-description-size: clamp(16px, 1.8vw, 18px);
+        ">
         <div class="section-shell application-grid">
           <div class="section-heading">
             <p class="eyebrow dark">Applications</p>
@@ -421,21 +492,39 @@
               Generated buildings and furniture remain explicit meshes that can move into content
               engines for rapid authoring and into interactive environments for embodied-agent training.
             </p>
+            <p>
+              Text2Villa also supports stylized text prompts, translating artistic descriptions into explicit, coherent 3D scenes whose architecture, furniture, and materials preserve the requested visual style without sacrificing spatial consistency.
+            </p>
           </div>
-          <figure>
-            <img
-              src="./static/images/figures/applications.webp"
-              alt="In-game community authoring and an interactive environment for embodied agents" />
-          </figure>
+          <div class="application-media">
+            <figure>
+              <img
+                src="./static/images/figures/applications.png"
+                alt="In-game community authoring and an interactive environment for embodied agents" />
+            </figure>
+            <figure>
+              <img
+                src="./static/images/figures/stylize.png"
+                alt="Stylized indoor scenes generated from stylized text prompts" />
+            </figure>
+          </div>
         </div>
       </section>
 
-      <section class="citation-section" id="citation" aria-labelledby="citation-title">
+      <section
+        class="citation-section"
+        id="citation"
+        aria-labelledby="citation-title"
+        style="
+          --section-eyebrow-size: 16px;
+          --section-title-size: clamp(32px, 4vw, 40px);
+          --section-description-size: clamp(16px, 1.8vw, 18px);
+          --citation-code-size: 16px;
+        ">
         <div class="section-shell citation-grid">
           <div class="section-heading">
             <p class="eyebrow dark">Reference</p>
             <h2 id="citation-title">Citation</h2>
-            <p>arXiv:2607.17145</p>
           </div>
           <pre><code>@article{tang2026text2villa,
   title={Text2Villa: Hierarchical Generation of 3D Indoor Environments
@@ -448,7 +537,13 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer
+      class="site-footer"
+      style="
+        --footer-brand-size: 24px;
+        --footer-copy-size: 16px;
+        --footer-link-size: 16px;
+      ">
       <div class="section-shell">
         <span>Text2Villa</span>
         <p>Hierarchical generation of physically plausible 3D indoor environments.</p>
@@ -456,7 +551,11 @@
       </div>
     </footer>
 
-    <dialog class="figure-dialog" id="figure-dialog" aria-labelledby="dialog-caption">
+    <dialog
+      class="figure-dialog"
+      id="figure-dialog"
+      aria-labelledby="dialog-caption"
+      style="--dialog-caption-size: 16px;">
       <button
         class="icon-button dialog-close"
         type="button"

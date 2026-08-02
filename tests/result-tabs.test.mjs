@@ -45,9 +45,10 @@ test('result tabs support click and standard horizontal keyboard navigation', as
   }
 
   const { initResultTabs } = await import(moduleUrl);
-  const tabs = [createTab('building', true), createTab('room', false)];
+  const tabs = [createTab('villa', true), createTab('floor', false), createTab('room', false)];
   const panels = [
-    { dataset: { resultPanel: 'building' }, hidden: false },
+    { dataset: { resultPanel: 'villa' }, hidden: false },
+    { dataset: { resultPanel: 'floor' }, hidden: true },
     { dataset: { resultPanel: 'room' }, hidden: true },
   ];
   const root = {
@@ -69,17 +70,21 @@ test('result tabs support click and standard horizontal keyboard navigation', as
   assert.equal(tabs[1].focused, true);
   assert.equal(panels[0].hidden, true);
   assert.equal(panels[1].hidden, false);
+  assert.equal(panels[2].hidden, true);
 
   tabs[1].dispatch('keydown', { key: 'ArrowRight', preventDefault() {} });
+  assert.equal(tabs[2].getAttribute('aria-selected'), 'true');
+
+  tabs[2].dispatch('keydown', { key: 'ArrowRight', preventDefault() {} });
   assert.equal(tabs[0].getAttribute('aria-selected'), 'true');
 
   tabs[0].dispatch('keydown', { key: 'End', preventDefault() {} });
-  assert.equal(tabs[1].getAttribute('aria-selected'), 'true');
+  assert.equal(tabs[2].getAttribute('aria-selected'), 'true');
 
-  tabs[1].dispatch('keydown', { key: 'Home', preventDefault() {} });
+  tabs[2].dispatch('keydown', { key: 'Home', preventDefault() {} });
   assert.equal(tabs[0].getAttribute('aria-selected'), 'true');
 
-  tabs[1].dispatch('click');
-  assert.equal(tabs[1].getAttribute('aria-selected'), 'true');
-  assert.equal(panels[1].hidden, false);
+  tabs[2].dispatch('click');
+  assert.equal(tabs[2].getAttribute('aria-selected'), 'true');
+  assert.equal(panels[2].hidden, false);
 });

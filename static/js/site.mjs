@@ -49,36 +49,22 @@ function initNavigation() {
   }
 }
 
-function showPoster(video, poster, status) {
+function loadVideo(video, source, shouldPlay) {
   video.hidden = true;
-  video.removeAttribute('src');
-  poster.hidden = false;
-  status.textContent = 'Poster preview';
-  status.dataset.mode = 'poster';
-}
+  video.pause();
+  video.src = source;
+  video.addEventListener(
+    'loadeddata',
+    () => {
+      video.hidden = false;
+    },
+    { once: true },
+  );
+  video.load();
 
-async function loadFloorVideo(floor, video, poster, status, requestId, latestRequest) {
-  showPoster(video, poster, status);
-  if (!floor.videoReady) return;
-
-  try {
-    const response = await fetch(floor.video, { method: 'HEAD', cache: 'no-store' });
-    if (!response.ok || requestId !== latestRequest()) return;
-
-    video.src = floor.video;
-    video.poster = floor.poster;
-    video.hidden = false;
-    poster.hidden = true;
-    status.textContent = 'Video preview';
-    status.dataset.mode = 'video';
-    video.load();
-
-    if (!reducedMotion.matches) {
-      await video.play().catch(() => undefined);
-    }
-  } catch {
-    if (requestId === latestRequest()) showPoster(video, poster, status);
-  }
+  if (!shouldPlay) return;
+  const playback = video.play();
+  playback?.catch?.(() => undefined);
 }
 
 export function initFloorExplorer(root) {
@@ -89,20 +75,16 @@ export function initFloorExplorer(root) {
   const rooms = root.querySelector('[data-floor-rooms]');
   const summary = root.querySelector('[data-floor-summary]');
   const video = root.querySelector('#floor-video');
-  const poster = root.querySelector('#floor-poster');
-  const status = root.querySelector('[data-media-status]');
+  const tourVideo = root.querySelector('#tour-video');
   const mapItems = Array.from(root.querySelectorAll('[data-floor-map]'));
-  let requestId = 0;
+  if (!buttons.length || !title || !video || !tourVideo) return;
 
-  const render = (id) => {
+  const render = (id, shouldPlay) => {
     const state = createFloorState(id);
-    requestId += 1;
 
     title.textContent = state.title;
-    rooms.textContent = state.floor.rooms;
-    summary.textContent = state.floor.summary;
-    poster.src = state.floor.poster;
-    poster.alt = `${state.floor.label} generated interior preview`;
+    if (rooms) rooms.textContent = state.floor.rooms;
+    if (summary) summary.textContent = state.floor.summary;
 
     buttons.forEach((button) => {
       const active = button.dataset.floorId === state.floor.id;
@@ -114,21 +96,18 @@ export function initFloorExplorer(root) {
       item.classList.toggle('is-active', item.dataset.floorMap === state.floor.id);
     });
 
-    loadFloorVideo(
-      state.floor,
-      video,
-      poster,
-      status,
-      requestId,
-      () => requestId,
-    );
+    loadVideo(video, state.floor.video, shouldPlay);
+    loadVideo(tourVideo, state.floor.tourVideo, shouldPlay);
   };
 
   buttons.forEach((button) => {
-    button.addEventListener('click', () => render(button.dataset.floorId));
+    button.addEventListener('click', () => render(button.dataset.floorId, true));
   });
 
-  render(buttons.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.floorId ?? '1');
+  render(
+    buttons.find((button) => button.getAttribute('aria-pressed') === 'true')?.dataset.floorId ?? '1',
+    !reducedMotion.matches,
+  );
 }
 
 

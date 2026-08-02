@@ -12,15 +12,15 @@ test('floor explorer module exists', () => {
   assert.equal(existsSync(modulePath), true);
 });
 
-test('floor catalog maps three stories to replaceable media', async () => {
+test('floor catalog maps three stories to the supplied floor and tour videos', async () => {
   const { FLOORS } = await import(moduleUrl);
 
   assert.deepEqual(FLOORS.map((floor) => floor.id), ['1', '2', '3']);
   for (const floor of FLOORS) {
     assert.match(floor.label, /^Floor [123]$/);
-    assert.match(floor.poster, /^\.\/static\/images\/floors\/floor-[123]\.webp$/);
-    assert.match(floor.video, /^\.\/static\/videos\/floor-[123]\.mp4$/);
-    assert.equal(floor.videoReady, false);
+    assert.equal('poster' in floor, false);
+    assert.equal(floor.video, `./static/videos/${floor.id}.mp4`);
+    assert.equal(floor.tourVideo, `./static/videos/m${floor.id}.mp4`);
     assert.ok(floor.summary.length > 20);
   }
 });
