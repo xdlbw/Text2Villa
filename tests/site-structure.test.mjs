@@ -45,8 +45,9 @@ test('previous work popover keeps hover continuity across its visual gap', () =>
   assert.match(css, /\.research-menu:hover\s+\.research-popover/);
 });
 
-test('floor explorer uses one villa image and two looping videos controlled by the floor selectors', () => {
+test('floor explorer uses a two-by-two layout with three looping videos', () => {
   const html = read(indexPath);
+  const css = read(cssPath);
   const resultsSection = html.match(/<section[^>]+class=["'][^"']*floor-section[^"']*["'][^>]+id=["']results["'][\s\S]*?<\/section>/i)?.[0] ?? '';
 
   assert.match(html, /data-floor-explorer/);
@@ -54,9 +55,24 @@ test('floor explorer uses one villa image and two looping videos controlled by t
   assert.match(resultsSection, /src=["']\.\/static\/images\/figures\/villa\.png["']/i);
   assert.equal((resultsSection.match(/villa\.png/gi) ?? []).length, 1);
   assert.doesNotMatch(resultsSection, /map-floor-[123]\.svg/i);
-  assert.match(resultsSection, /aria-controls=["']floor-video tour-video["']/i);
+  assert.match(resultsSection, /aria-controls=["']floor-video trajectory-video tour-video["']/i);
   assert.match(resultsSection, /<video[^>]+id=["']floor-video["'][^>]*\bloop\b[^>]*>/i);
+  const trajectoryVideoTag = resultsSection.match(/<video[^>]+id=["']trajectory-video["'][^>]*>/i)?.[0] ?? '';
+  assert.match(trajectoryVideoTag, /\bloop\b/i);
+  assert.doesNotMatch(trajectoryVideoTag, /\bcontrols\b/i);
   assert.match(resultsSection, /<video[^>]+id=["']tour-video["'][^>]*\bloop\b[^>]*>/i);
+  assert.match(
+    resultsSection,
+    /Complete Villa[\s\S]*?data-floor-title[\s\S]*?id=["']trajectory-panel["'][\s\S]*?data-trajectory-title[\s\S]*?Virtual Tour/i,
+  );
+  assert.doesNotMatch(resultsSection, /data-trajectory-placeholder|trajectory-placeholder/i);
+
+  assert.match(css, /\.floor-explorer\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i);
+  assert.match(css, /\.villa-selector\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/i);
+  const villaPreviewRule = css.match(/\.villa-preview\s*\{([^}]*)\}/i)?.[1] ?? '';
+  assert.match(villaPreviewRule, /position:\s*absolute/i);
+  assert.match(villaPreviewRule, /height:\s*calc\(100%\s*-\s*28px\)/i);
+  assert.match(villaPreviewRule, /object-fit:\s*contain/i);
   assert.doesNotMatch(resultsSection, /id=["']floor-poster["']/i);
   assert.doesNotMatch(resultsSection, /\bposter\s*=/i);
   assert.doesNotMatch(resultsSection, /Video preview|data-media-status/i);
@@ -64,7 +80,7 @@ test('floor explorer uses one villa image and two looping videos controlled by t
   assert.match(html, /aria-live=["']polite["']/i);
 
   const floorData = read(floorDataPath);
-  for (const name of ['1.mp4', '2.mp4', '3.mp4', 'm1.mp4', 'm2.mp4', 'm3.mp4']) {
+  for (const name of ['1.mp4', '2.mp4', '3.mp4', 'c1.mp4', 'c2.mp4', 'c3.mp4', 'm1.mp4', 'm2.mp4', 'm3.mp4']) {
     assert.equal(existsSync(path.join(rootDir, 'static/videos', name)), true);
     assert.equal(floorData.includes(`./static/videos/${name}`), true);
   }

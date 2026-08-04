@@ -49,6 +49,11 @@ function initNavigation() {
   }
 }
 
+function playVideo(video) {
+  const playback = video.play();
+  playback?.catch?.(() => undefined);
+}
+
 function loadVideo(video, source, shouldPlay) {
   video.hidden = true;
   video.pause();
@@ -63,8 +68,62 @@ function loadVideo(video, source, shouldPlay) {
   video.load();
 
   if (!shouldPlay) return;
-  const playback = video.play();
-  playback?.catch?.(() => undefined);
+  playVideo(video);
+}
+
+function createSynchronizedVideoLoader(master, follower) {
+  let loading = false;
+
+  const syncTime = () => {
+    if (loading || !Number.isFinite(master.currentTime)) return;
+    if (Math.abs(follower.currentTime - master.currentTime) > 0.12) {
+      follower.currentTime = master.currentTime;
+    }
+  };
+
+  master.addEventListener('play', () => {
+    if (loading) return;
+    syncTime();
+    playVideo(follower);
+  });
+  master.addEventListener('pause', () => {
+    if (!loading) follower.pause();
+  });
+  master.addEventListener('seeking', syncTime);
+  master.addEventListener('timeupdate', syncTime);
+  master.addEventListener('ratechange', () => {
+    if (!loading) follower.playbackRate = master.playbackRate;
+  });
+
+  return (masterSource, followerSource, shouldPlay) => {
+    loading = true;
+    let readyCount = 0;
+    const videos = [master, follower];
+    const sources = [masterSource, followerSource];
+
+    videos.forEach((video, index) => {
+      video.hidden = true;
+      video.pause();
+      video.src = sources[index];
+      video.addEventListener(
+        'loadeddata',
+        () => {
+          readyCount += 1;
+          if (readyCount !== videos.length) return;
+
+          master.currentTime = 0;
+          follower.currentTime = 0;
+          follower.playbackRate = master.playbackRate;
+          master.hidden = false;
+          follower.hidden = false;
+          loading = false;
+          if (shouldPlay) playVideo(master);
+        },
+        { once: true },
+      );
+      video.load();
+    });
+  };
 }
 
 export function initFloorExplorer(root) {
@@ -72,17 +131,22 @@ export function initFloorExplorer(root) {
 
   const buttons = Array.from(root.querySelectorAll('[data-floor-id]'));
   const title = root.querySelector('[data-floor-title]');
+  const trajectoryTitle = root.querySelector('[data-trajectory-title]');
   const rooms = root.querySelector('[data-floor-rooms]');
   const summary = root.querySelector('[data-floor-summary]');
   const video = root.querySelector('#floor-video');
+  const trajectoryVideo = root.querySelector('#trajectory-video');
   const tourVideo = root.querySelector('#tour-video');
   const mapItems = Array.from(root.querySelectorAll('[data-floor-map]'));
-  if (!buttons.length || !title || !video || !tourVideo) return;
+  if (!buttons.length || !title || !trajectoryTitle || !video || !trajectoryVideo || !tourVideo) return;
+
+  const loadTourPair = createSynchronizedVideoLoader(tourVideo, trajectoryVideo);
 
   const render = (id, shouldPlay) => {
     const state = createFloorState(id);
 
     title.textContent = state.title;
+    trajectoryTitle.textContent = state.trajectoryTitle;
     if (rooms) rooms.textContent = state.floor.rooms;
     if (summary) summary.textContent = state.floor.summary;
 
@@ -97,7 +161,7 @@ export function initFloorExplorer(root) {
     });
 
     loadVideo(video, state.floor.video, shouldPlay);
-    loadVideo(tourVideo, state.floor.tourVideo, shouldPlay);
+    loadTourPair(state.floor.tourVideo, state.floor.trajectoryVideo, shouldPlay);
   };
 
   buttons.forEach((button) => {

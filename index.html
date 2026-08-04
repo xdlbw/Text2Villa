@@ -306,24 +306,24 @@
                   type="button"
                   data-floor-id="3"
                   data-floor-map="3"
-                  aria-label="Play floor 3 preview and virtual tour"
-                  aria-controls="floor-video tour-video"
+                  aria-label="Select floor 3 preview, camera trajectory, and virtual tour"
+                  aria-controls="floor-video trajectory-video tour-video"
                   aria-pressed="false">3</button>
                 <button
                   class="villa-floor-marker villa-floor-marker--2"
                   type="button"
                   data-floor-id="2"
                   data-floor-map="2"
-                  aria-label="Play floor 2 preview and virtual tour"
-                  aria-controls="floor-video tour-video"
+                  aria-label="Select floor 2 preview, camera trajectory, and virtual tour"
+                  aria-controls="floor-video trajectory-video tour-video"
                   aria-pressed="false">2</button>
                 <button
                   class="villa-floor-marker villa-floor-marker--1 is-active"
                   type="button"
                   data-floor-id="1"
                   data-floor-map="1"
-                  aria-label="Play floor 1 preview and virtual tour"
-                  aria-controls="floor-video tour-video"
+                  aria-label="Select floor 1 preview, camera trajectory, and virtual tour"
+                  aria-controls="floor-video trajectory-video tour-video"
                   aria-pressed="true">1</button>
               </div>
             </article>
@@ -341,6 +341,22 @@
                   playsinline
                   preload="auto"
                   src="./static/videos/1.mp4" hidden></video>
+              </div>
+            </article>
+
+            <article class="floor-panel trajectory-panel" id="trajectory-panel" aria-labelledby="trajectory-title">
+              <header class="panel-header">
+                <h3 id="trajectory-title" data-trajectory-title aria-live="polite">Floor 1 Camera Trajectory</h3>
+              </header>
+              <div class="floor-media">
+                <video
+                  id="trajectory-video"
+                  aria-labelledby="trajectory-title"
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                  src="./static/videos/c1.mp4" hidden></video>
               </div>
             </article>
 

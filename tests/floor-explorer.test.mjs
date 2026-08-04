@@ -12,7 +12,7 @@ test('floor explorer module exists', () => {
   assert.equal(existsSync(modulePath), true);
 });
 
-test('floor catalog maps three stories to the supplied floor and tour videos', async () => {
+test('floor catalog maps three stories to the supplied floor, trajectory, and tour videos', async () => {
   const { FLOORS } = await import(moduleUrl);
 
   assert.deepEqual(FLOORS.map((floor) => floor.id), ['1', '2', '3']);
@@ -20,6 +20,7 @@ test('floor catalog maps three stories to the supplied floor and tour videos', a
     assert.match(floor.label, /^Floor [123]$/);
     assert.equal('poster' in floor, false);
     assert.equal(floor.video, `./static/videos/${floor.id}.mp4`);
+    assert.equal(floor.trajectoryVideo, `./static/videos/c${floor.id}.mp4`);
     assert.equal(floor.tourVideo, `./static/videos/m${floor.id}.mp4`);
     assert.ok(floor.summary.length > 20);
   }
@@ -38,6 +39,7 @@ test('floor state marks exactly one selector as pressed', async () => {
 
   assert.equal(state.floor.id, '3');
   assert.equal(state.title, 'Floor 3 Preview');
+  assert.equal(state.trajectoryTitle, 'Floor 3 Camera Trajectory');
   assert.equal(state.buttons.filter((button) => button.pressed).length, 1);
   assert.equal(state.buttons.find((button) => button.pressed).id, '3');
 });

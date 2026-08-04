@@ -5,6 +5,7 @@ export const FLOORS = Object.freeze([
     rooms: 'Living / Dining / Kitchen',
     summary: 'A connected social level organized around the living room, dining area, kitchen, and vertical circulation.',
     video: './static/videos/1.mp4',
+    trajectoryVideo: './static/videos/c1.mp4',
     tourVideo: './static/videos/m1.mp4',
   }),
   Object.freeze({
@@ -13,6 +14,7 @@ export const FLOORS = Object.freeze([
     rooms: 'Office / Meeting / Bedroom',
     summary: 'A work-and-rest level combining an office, a meeting room, a bedroom, and direct balcony access.',
     video: './static/videos/2.mp4',
+    trajectoryVideo: './static/videos/c2.mp4',
     tourVideo: './static/videos/m2.mp4',
   }),
   Object.freeze({
@@ -21,6 +23,7 @@ export const FLOORS = Object.freeze([
     rooms: 'Children / Bath / Balcony',
     summary: 'A private upper level with a children room, bathroom, utility space, and connected balcony.',
     video: './static/videos/3.mp4',
+    trajectoryVideo: './static/videos/c3.mp4',
     tourVideo: './static/videos/m3.mp4',
   }),
 ]);
@@ -36,6 +39,7 @@ export function createFloorState(id) {
   return {
     floor,
     title: `${floor.label} Preview`,
+    trajectoryTitle: `${floor.label} Camera Trajectory`,
     buttons: FLOORS.slice().reverse().map((item) => ({
       id: item.id,
       label: item.label,
